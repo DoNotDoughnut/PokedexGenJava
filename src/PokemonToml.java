@@ -25,6 +25,8 @@ import me.sargunvohra.lib.pokekotlin.model.PokemonType;
 
 public class PokemonToml {
 
+    public static int pokemonCount = 386;
+
     public static Path entriesDirectory = Paths.get("pokedex/entries");
     public static Path texturesDirectory = Paths.get("pokedex/textures");
 
@@ -40,7 +42,7 @@ public class PokemonToml {
             Files.createDirectories(Paths.get(texturesDirectory.toString() + "/normal/front"));
         }
 
-        for (int i = 1; i <= MainClass.pokemonCount; i++) {
+        for (int i = 1; i <= pokemonCount; i++) {
 
             Pokemon pokemon = pokeApi.getPokemon(i);
 
@@ -101,23 +103,11 @@ public class PokemonToml {
             );
 
             if (i < 152) {
-
                 updateImage(download("firered-leafgreen", name, "front"));
-
-
-
                 updateImage(download("firered-leafgreen", name, "back"));
-
-
-
             } else {
-
                 updateImage(download("ruby-sapphire", name, "front"));
-
-
-
                 updateImage(download("ruby-sapphire", name, "back"));
-
             }
 
         }
@@ -148,7 +138,7 @@ public class PokemonToml {
 
     public static BufferedImage getNewImage(BufferedImage in) {
         int[] lines = getImageHeights(in);
-        return in.getSubimage(0, lines[0], in.getWidth(), lines[1] - lines[0]);
+        return in.getSubimage(0, lines[0], in.getWidth(), lines[1] - lines[0] + 1);
     }
 
     public static int[] getImageHeights(BufferedImage image) { // y0, y1

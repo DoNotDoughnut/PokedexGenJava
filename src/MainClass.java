@@ -9,10 +9,6 @@ import me.sargunvohra.lib.pokekotlin.client.PokeApiClient;
 
 public class MainClass {
 
-    public static int pokemonCount = 386;
-
-    public static String spritesDirectory = "pokedex/textures";
-
     public static void main(String[] args) throws Exception {
 
         PokeApi pokeApi = new PokeApiClient();
