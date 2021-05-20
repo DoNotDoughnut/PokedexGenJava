@@ -26,12 +26,13 @@ public class PokemonMoves {
                     Move move = pokeApi.getMove(i);
 
                     String name = move.getNames().get(7).getName();
+                    String id = move.getName();
     
                     System.out.println("Creating entry for move: " + name);
 
                     writer.write(
                         new MoveEntry(
-                            i,
+                            id,
                             name, 
                             MainClass.capitalize(move.getType().getName()), 
                             MainClass.capitalize(move.getDamageClass().getName()), 
@@ -56,19 +57,19 @@ public class PokemonMoves {
 
 class MoveEntry {
 
-    int number;
+    String id;
     String name;
-    String pokemon_type;
+    String type;
     String category;
 
     Integer power;
     Integer accuracy;
     Integer pp;
 
-    MoveEntry(int number, String name, String pokemonType, String category, Integer power, Integer accuracy, Integer pp) {
-        this.number = number;
+    MoveEntry(String id, String name, String type, String category, Integer power, Integer accuracy, Integer pp) {
+        this.id = id;
         this.name = name;
-        this.pokemon_type = pokemonType;
+        this.type = type;
         this.category = category;
         this.power = power;
         this.accuracy = accuracy;

@@ -70,6 +70,14 @@ public class PokemonToml {
 
             List<PokemonStat> stats = pokemon.getStats();
 
+            // breeding
+
+            Integer gender = species.getGenderRate();
+
+            if (gender == -1) {
+                gender = null;
+            }
+
             // moves
 
             List<LearnableMoves> moves = new ArrayList<LearnableMoves>();
@@ -78,9 +86,8 @@ public class PokemonToml {
                 PokemonMove move = pokemon.getMoves().get(j);
                 for (PokemonMoveVersion version: move.getVersionGroupDetails()) {
                     if (version.getLevelLearnedAt() != 0 && version.getVersionGroup().getName().startsWith("f")) {
-                        int id = move.getMove().getId();
-                        moves.add(new LearnableMoves(id, version.getLevelLearnedAt()));
-                        moveIds.add(id);
+                        moves.add(new LearnableMoves(move.getMove().getName(), version.getLevelLearnedAt()));
+                        moveIds.add(move.getMove().getId());
                     }
                 }
             }
@@ -107,6 +114,9 @@ public class PokemonToml {
                         stats.get(3).getBaseStat(),
                         stats.get(4).getBaseStat(),
                         stats.get(5).getBaseStat()
+                    ),
+                    new Breeding(
+                        gender
                     ),
                     moves
                 ),
@@ -149,12 +159,15 @@ class PokemonEntry {
     
     BaseStats base;
 
+    Breeding breeding;
+
     List<LearnableMoves> moves;
 
-    PokemonEntry(PokedexData pokedexData, Training training, BaseStats baseStats, List<LearnableMoves> moves) {
+    PokemonEntry(PokedexData pokedexData, Training training, BaseStats baseStats, Breeding breeding, List<LearnableMoves> moves) {
         this.data = pokedexData;
         this.training = training;
         this.base = baseStats;
+        this.breeding = breeding;
         this.moves = moves;
     }
 
@@ -162,7 +175,7 @@ class PokemonEntry {
 
 class PokedexData {
 
-    int number;
+    int id;
     String name;
     String primary_type;
     String secondary_type;
@@ -170,9 +183,8 @@ class PokedexData {
     int height;
     int weight;
 
-    PokedexData(int number, String name, String primary_type, String secondary_type, String species, int height,
-            int weight) {
-        this.number = number;
+    PokedexData(int id, String name, String primary_type, String secondary_type, String species, int height, int weight) {
+        this.id = id;
         this.name = name;
         this.primary_type = primary_type;
         this.secondary_type = secondary_type;
@@ -224,13 +236,21 @@ class BaseStats {
 
 }
 
+class Breeding {
+    Integer gender;
+
+    Breeding(Integer gender) {
+        this.gender = gender;
+    }
+}
+
 class LearnableMoves {
 
-    int move_id;
+    String move;
     int level;
 
-    LearnableMoves(int moveId, int level) {
-        this.move_id = moveId;
+    LearnableMoves(String move, int level) {
+        this.move = move;
         this.level = level;
     }
 

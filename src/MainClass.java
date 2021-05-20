@@ -1,4 +1,3 @@
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,13 +13,13 @@ public class MainClass {
 
         long start = System.currentTimeMillis();
 
-        PokeApi pokeApi = new PokeApiClient();
-
         Path path = Paths.get("pokedex");
 
         if (Files.notExists(path)) {
             Files.createDirectory(path);
-        }        
+        }
+
+        PokeApi pokeApi = new PokeApiClient();
 
         HashSet<Integer> moveIds = PokemonToml.addEntries(pokeApi);
 
